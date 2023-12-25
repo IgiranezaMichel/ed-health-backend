@@ -22,31 +22,23 @@ public Hospital saveHospital(@Argument(name = "input")Hospital data){
     return hospitalRepo.save(data);
 }
 @MutationMapping()
-public Hospital findById(@Argument(name = "input")long data){
-    try {
-         return hospitalRepo.findById(data).orElse(null);
-    } catch (Exception e) {
-        log.info(e.getMessage());
-        return null;
-    }
-   
-}
-@MutationMapping()
 public String deleteHospital(@Argument()long data){
     try {
         Hospital Hospital=hospitalRepo.findById(data).orElse(null);
       if(Hospital!=null) {
         hospitalRepo.deleteById(data); 
-        return "Accademic Deleted Sucessfully";
+        return "Hospital Deleted Sucessfully";
     } 
     else return "Please Select Academic record";
     } catch (Exception e) {
+        log.info(e+"");
         return "Error haappen";
     }
 }
+
 @QueryMapping()
-public Hospital findHospitalById(@Argument() long data){
-return hospitalRepo.findById(data).orElse(null);
+public Hospital findHospitalById(@Argument() long id){
+return hospitalRepo.findById(id).orElse(null);
 }
 @QueryMapping()
 public List<Hospital> getAllHospitals(){
