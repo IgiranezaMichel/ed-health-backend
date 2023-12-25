@@ -1,4 +1,6 @@
 package com.edhealthbackend.Model;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
@@ -8,4 +10,7 @@ import lombok.*;
 public class Job {
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
 private long id;
+private String title;
+private String description;
+private LocalDateTime postDate=LocalDateTime.now();
 }
