@@ -8,6 +8,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import com.edhealthbackend.GqlModel.inputAcademicAnualResult;
 import com.edhealthbackend.Model.AcademicAnualResult;
 import com.edhealthbackend.Repository.AcademicAnualResultRepo;
 
@@ -18,25 +19,15 @@ import lombok.extern.slf4j.Slf4j;
 public class AcademicAnualResultController {
 @Autowired private AcademicAnualResultRepo ac_ResultRepo;
 @MutationMapping()
-public AcademicAnualResult saveAccademicResult(@Argument(name = "input")AcademicAnualResult data){
-    return ac_ResultRepo.save(data);
+public AcademicAnualResult saveAcademicResult(@Argument(name = "input")inputAcademicAnualResult data){
+    return ac_ResultRepo.save(data.getData());
 }
 @MutationMapping()
-public AcademicAnualResult findById(@Argument(name = "input")long data){
+public String deleteAcademicResult(@Argument long id){
     try {
-         return ac_ResultRepo.findById(data).orElse(null);
-    } catch (Exception e) {
-        log.info(e.getMessage());
-        return null;
-    }
-   
-}
-@MutationMapping()
-public String deleteAccademicResult(@Argument()long data){
-    try {
-        AcademicAnualResult academicAnualResult=ac_ResultRepo.findById(data).orElse(null);
+        AcademicAnualResult academicAnualResult=ac_ResultRepo.findById(id).orElse(null);
       if(academicAnualResult!=null) {
-        ac_ResultRepo.deleteById(data); 
+        ac_ResultRepo.deleteById(id); 
         return "Accademic Deleted Sucessfully";
     } 
     else return "Please Select Academic record";
@@ -45,9 +36,16 @@ public String deleteAccademicResult(@Argument()long data){
     }
 }
 @QueryMapping()
-public AcademicAnualResult findAcademicAnualResultById(@Argument() long data){
-return ac_ResultRepo.findById(data).orElse(null);
+public AcademicAnualResult findAcademicResultById(@Argument long data){
+    try {
+         return ac_ResultRepo.findById(data).orElse(null);
+    } catch (Exception e) {
+        log.info(e.getMessage());
+        return null;
+    }
+   
 }
+
 @QueryMapping()
 public List<AcademicAnualResult> getAllAnnualResult(){
     return ac_ResultRepo.findAll();
