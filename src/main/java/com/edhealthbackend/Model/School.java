@@ -8,4 +8,5 @@ import lombok.*;
 public class School {
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
 private long id;
+private String name;
 }
