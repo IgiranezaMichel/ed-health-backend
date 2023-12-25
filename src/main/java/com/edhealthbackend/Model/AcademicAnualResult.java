@@ -1,5 +1,7 @@
 package com.edhealthbackend.Model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
@@ -9,6 +11,7 @@ import lombok.*;
 public class AcademicAnualResult {
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
 private long id;
-private double anualReportMarks;
-private double anualDisciplineMarks;
+private BigDecimal anualReportMarks;
+private BigDecimal anualDisciplineMarks;
+private int academicYear;
 }
