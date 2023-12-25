@@ -8,4 +8,6 @@ import lombok.*;
 public class Location {
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
 private long id;
+private String name;
+private String type;
 }
