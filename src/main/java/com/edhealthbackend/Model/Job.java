@@ -12,5 +12,5 @@ public class Job {
 private long id;
 private String title;
 private String description;
-private LocalDateTime postDate=LocalDateTime.now();
+private LocalDateTime postDate;
 }
