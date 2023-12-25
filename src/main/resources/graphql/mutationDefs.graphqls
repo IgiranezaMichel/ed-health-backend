@@ -1,0 +1,27 @@
+type Mutation{
+    # academic anual result mutations
+    saveAcademicResult(input:inputAcademicAnualResult):AcademicAnualResult
+    deleteAcademicResult(id:ID):String
+    # certificate mutation
+    saveCertificate(input:inputCertificate):Certificate
+    deleteCertificate(id:Long):String
+    # hospital
+    saveHospital(input:inputHospital):Hospital
+    deleteHospital(id:Long):String
+    # Job
+    saveJob(input:inputJob):Job
+    deleteJob(id:Long):String
+    # location
+    deleteLocation(id:Long):String
+    saveLocation(input:inputLocation):Location
+    # School
+    saveSchool(input:inputSchool):School
+    deleteSchool(id:Long):String
+    # Training
+    saveTraining(input:inputTraining):Training
+    deleteTraining(id:Long):String
+    # User
+    saveUser(input:inputUser):User
+    deleteUser(id:Long):String
+
+}
