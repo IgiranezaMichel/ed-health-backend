@@ -1,0 +1,51 @@
+scalar LocalDateTime
+scalar Long
+scalar BigDecimal
+type AcademicAnualResult{
+    id:Long
+    anualReportMarks:BigDecimal
+    anualDisciplineMarks:BigDecimal
+    academicYear:Int
+}
+type Certificate{
+    id:Long
+    receivedDate:LocalDateTime
+    expirationDate:LocalDateTime
+}
+
+type Hospital{
+    id:Long
+    name:String
+}
+type Job{
+ id:Long
+ title:String
+ description:String
+ postDate:LocalDateTime
+}
+type Location{
+ id:Long
+ name:String
+ type:String
+}
+type School{
+ id:Long
+ name:String
+}
+type Training{
+ id:Long
+ description:String
+ postDate:LocalDateTime
+ deadline:LocalDateTime
+}
+type User{
+id:Long
+name:String
+gender:String
+profilePicture:String
+phoneNumber:String
+email:String
+dob:LocalDateTime
+role:String
+password:String
+}
