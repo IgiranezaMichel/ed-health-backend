@@ -8,6 +8,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import com.edhealthbackend.GqlModel.inputSchool;
 import com.edhealthbackend.Model.School;
 import com.edhealthbackend.Repository.SchoolRepo;
 
@@ -18,26 +19,17 @@ import lombok.extern.slf4j.Slf4j;
 public class SchoolController {
 @Autowired private SchoolRepo ac_ResultRepo;
 @MutationMapping()
-public School saveSchool(@Argument(name = "input")School data){
-    return ac_ResultRepo.save(data);
+public School saveSchool(@Argument(name = "input")inputSchool data){
+    return ac_ResultRepo.save(data.getData());
 }
+
 @MutationMapping()
-public School findById(@Argument(name = "input")long data){
+public String deleteSchool(@Argument()long id){
     try {
-         return ac_ResultRepo.findById(data).orElse(null);
-    } catch (Exception e) {
-        log.info(e.getMessage());
-        return null;
-    }
-   
-}
-@MutationMapping()
-public String deleteSchool(@Argument()long data){
-    try {
-        School School=ac_ResultRepo.findById(data).orElse(null);
+        School School=ac_ResultRepo.findById(id).orElse(null);
       if(School!=null) {
-        ac_ResultRepo.deleteById(data); 
-        return "Accademic Deleted Sucessfully";
+        ac_ResultRepo.deleteById(id); 
+        return "School Deleted Sucessfully";
     } 
     else return "Please Select Academic record";
     } catch (Exception e) {
@@ -45,8 +37,14 @@ public String deleteSchool(@Argument()long data){
     }
 }
 @QueryMapping()
-public School findSchoolById(@Argument() long data){
-return ac_ResultRepo.findById(data).orElse(null);
+public School findSchoolById(@Argument long id){
+    try {
+         return ac_ResultRepo.findById(id).orElse(null);
+    } catch (Exception e) {
+        log.info(e.getMessage());
+        return null;
+    }
+   
 }
 @QueryMapping()
 public List<School> getAllSchools(){
