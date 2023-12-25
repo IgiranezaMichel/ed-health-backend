@@ -1,0 +1,51 @@
+# academica anual result inputs
+input inputAcademicAnualResult{
+    id:Long
+    anualReportMarks:BigDecimal
+    anualDisciplineMarks:BigDecimal
+    academicYear:Int
+}
+# certificate input
+input inputCertificate{
+    id:Long
+    receivedDate:LocalDateTime
+}
+# hospital input
+input inputHospital{
+    id:Long
+    name:String
+}
+input inputJob{
+ id:Long
+ title:String
+ description:String
+}
+# location input
+input inputLocation{
+    id:Long
+    name:String
+    type:String
+}
+# school input
+input inputSchool{
+ id:Long
+ name:String
+}
+# training input
+input inputTraining{
+ id:Long
+ description:String
+ deadline:LocalDateTime
+}
+# user input
+input inputUser{
+id:Long
+name:String
+gender:String
+profilePicture:String
+phoneNumber:String
+email:String
+dob:LocalDateTime
+role:String
+password:String
+}
