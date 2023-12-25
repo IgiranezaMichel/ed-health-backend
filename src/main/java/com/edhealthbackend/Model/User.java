@@ -1,7 +1,5 @@
 package com.edhealthbackend.Model;
-
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
@@ -16,7 +14,7 @@ private String gender;
 private String profilePicture;
 private String phoneNumber;
 private String email;
-private Date dob;
+private LocalDateTime dob;
 private String role;
 private String password;
 }
