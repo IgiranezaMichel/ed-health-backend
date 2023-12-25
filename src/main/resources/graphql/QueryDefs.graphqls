@@ -1,0 +1,26 @@
+type Query{
+    # annual academic result
+    findAcademicResultById(id:Long):AcademicAnualResult
+    getAllAnnualResult:[AcademicAnualResult]
+    # certificate results
+    getAllCertificate:Certificate
+    findCertificateById(id:Long):Certificate
+    # hospital
+    findHospitalById(id:Long):Hospital
+    getAllHospitals:[Hospital]
+    # Job
+    findJobById(id:Long):Job
+    getAllJobs:[Job]
+    # location
+    findLocationById(id:Long):Location
+    getAllLocations:[Location]
+    # school
+    findSchoolById(id:Long):School
+    getAllSchools:[School]
+    # Training
+    findTrainingById(id:Long):Training
+    getAllTrainings:[Training]
+    # User
+    findUserById(id:Long):User
+    getAllUsers:[User]
+}
