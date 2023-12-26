@@ -7,7 +7,7 @@ public class inputTraining extends Training implements graphQlData<Training> {
 
     @Override
     public Training getData() {
-       return new Training(getId(), getDescription(), getPostDate(), getDeadline());
+       return new Training(getId(), getTitle(), getDescription(), getPostDate(), getDeadline());
     }
 
 }
