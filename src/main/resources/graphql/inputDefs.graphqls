@@ -34,6 +34,7 @@ input inputSchool{
 # training input
 input inputTraining{
  id:Long
+ title:String
  description:String
  deadline:LocalDateTime
 }

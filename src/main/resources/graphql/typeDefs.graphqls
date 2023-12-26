@@ -34,6 +34,7 @@ type School{
 }
 type Training{
  id:Long
+ title:String
  description:String
  postDate:LocalDateTime
  deadline:LocalDateTime

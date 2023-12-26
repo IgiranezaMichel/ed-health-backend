@@ -10,6 +10,7 @@ import lombok.*;
 public class Training {
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
 private long id;
+private String title;
 private String description;
 private LocalDateTime postDate=LocalDateTime.now();
 private LocalDateTime deadline;
