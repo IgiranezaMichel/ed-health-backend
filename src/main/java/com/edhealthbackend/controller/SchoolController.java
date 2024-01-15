@@ -1,15 +1,22 @@
 package com.edhealthbackend.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import com.edhealthbackend.GqlModel.inputSchool;
+import com.edhealthbackend.GqlModel.Paginations.SchoolPage;
+import com.edhealthbackend.Model.Location;
 import com.edhealthbackend.Model.School;
+import com.edhealthbackend.Repository.LocationRepo;
 import com.edhealthbackend.Repository.SchoolRepo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,18 +24,26 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class SchoolController {
-@Autowired private SchoolRepo ac_ResultRepo;
+@Autowired private SchoolRepo schoolRepo;
+@Autowired private LocationRepo locationRepo;
 @MutationMapping()
 public School saveSchool(@Argument(name = "input")inputSchool data){
-    return ac_ResultRepo.save(data.getData());
+    Location location=new Location();
+    try {
+     location=locationRepo.findById(data.getLocationId()).orElse(null);
+    } catch (Exception e) {
+       log.info(e.getMessage());
+       return null;
+    }
+    return schoolRepo.save(new School(data.getId(),data.getName(),data.getLogo(),LocalDateTime.now(),location));
 }
 
 @MutationMapping()
 public String deleteSchool(@Argument()long id){
     try {
-        School School=ac_ResultRepo.findById(id).orElse(null);
+        School School=schoolRepo.findById(id).orElse(null);
       if(School!=null) {
-        ac_ResultRepo.deleteById(id); 
+        schoolRepo.deleteById(id); 
         return "School Deleted Sucessfully";
     } 
     else return "Please Select Academic record";
@@ -39,7 +54,7 @@ public String deleteSchool(@Argument()long id){
 @QueryMapping()
 public School findSchoolById(@Argument long id){
     try {
-         return ac_ResultRepo.findById(id).orElse(null);
+         return schoolRepo.findById(id).orElse(null);
     } catch (Exception e) {
         log.info(e.getMessage());
         return null;
@@ -48,6 +63,11 @@ public School findSchoolById(@Argument long id){
 }
 @QueryMapping()
 public List<School> getAllSchools(){
-    return ac_ResultRepo.findAll();
+    return schoolRepo.findAll();
+}
+@QueryMapping()
+public SchoolPage schoolListPagination(@Argument(name = "pageNumber") int pageNumber,@Argument(name = "pageSize") int pageSize,@Argument(name = "sortBy") String sortBy){
+Page<School>schooPage=schoolRepo.findAll(PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)));
+return new SchoolPage(schooPage.getContent(),schooPage.getNumber(),schooPage.getTotalPages(),schoolRepo.findAll().size());
 }
 }
