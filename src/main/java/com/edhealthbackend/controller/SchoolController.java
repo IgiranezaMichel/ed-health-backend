@@ -19,74 +19,87 @@ import com.edhealthbackend.Model.School;
 import com.edhealthbackend.Model.User;
 import com.edhealthbackend.Repository.LocationRepo;
 import com.edhealthbackend.Repository.SchoolRepo;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
 public class SchoolController {
-@Autowired private SchoolRepo schoolRepo;
-@Autowired private LocationRepo locationRepo;
-@MutationMapping()
-public School saveSchool(@Argument(name = "input")inputSchool data){
-    Location location=new Location();
-    try {
-     location=locationRepo.findById(data.getLocationId()).orElse(null);
-    } catch (Exception e) {
-       log.info(e.getMessage());
-       return null;
-    }
-    return schoolRepo.save(new School(data.getId(),data.getName(),data.getLogo(),LocalDateTime.now(),location));
-}
+    @Autowired
+    private SchoolRepo schoolRepo;
+    @Autowired
+    private LocationRepo locationRepo;
 
-@MutationMapping()
-public String deleteSchool(@Argument()long id){
-    try {
-        School School=schoolRepo.findById(id).orElse(null);
-      if(School!=null) {
-        schoolRepo.deleteById(id); 
-        return "School Deleted Sucessfully";
-    } 
-    else return "Please Select Academic record";
-    } catch (Exception e) {
-        return "Error haappen";
+    @MutationMapping()
+    public School saveSchool(@Argument(name = "input") inputSchool data) {
+        Location location = new Location();
+        try {
+            location = locationRepo.findById(data.getLocationId()).orElse(null);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return null;
+        }
+        return schoolRepo.save(new School(data.getId(), data.getName(), data.getLogo(), LocalDateTime.now(), location));
     }
-}
-@QueryMapping()
-public School findSchoolById(@Argument long id){
-    try {
-         return schoolRepo.findById(id).orElse(null);
-    } catch (Exception e) {
-        log.info(e.getMessage());
+
+    @MutationMapping()
+    public String deleteSchool(@Argument() long id) {
+        try {
+            School School = schoolRepo.findById(id).orElse(null);
+            if (School != null) {
+                schoolRepo.deleteById(id);
+                return "School Deleted Sucessfully";
+            } else
+                return "Please Select Academic record";
+        } catch (Exception e) {
+            return "Error haappen";
+        }
+    }
+
+    @QueryMapping()
+    public School findSchoolById(@Argument long id) {
+        try {
+            return schoolRepo.findById(id).orElse(null);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return null;
+        }
+
+    }
+
+    @QueryMapping()
+    public List<School> getAllSchools() {
+        return schoolRepo.findAll();
+    }
+
+    @QueryMapping()
+    public SchoolPage schoolListPagination(@Argument(name = "pageNumber") int pageNumber,
+            @Argument(name = "pageSize") int pageSize, @Argument(name = "sortBy") String sortBy) {
+        Page<School> schooPage = schoolRepo.findAll(PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)));
+        return new SchoolPage(schooPage.getContent(), schooPage.getNumber(), schooPage.getTotalPages(),
+                schoolRepo.findAll().size());
+    }
+
+    @QueryMapping()
+    public List<User> searchStudent(@Argument(name = "schoolId") long schoolId,
+            @Argument(name = "search") String search) {
+        try {
+            School findSchool = schoolRepo.findById(schoolId).orElse(null);
+            if (findSchool != null) {
+                List<User> findUser = findSchool.getUserList()
+                        .stream().filter(
+                                user -> ((user.getName().toLowerCase().contains(search.toLowerCase()))
+                                        || (user.getEmail().toLowerCase().contains(search.toLowerCase()))
+                                        || (user.getPhoneNumber().toLowerCase().contains(search.toLowerCase())
+                                                || user.getGender().toLowerCase().contains(search.toLowerCase()))
+                                        || user.getDob().toString().toLowerCase().contains(search.toLowerCase())
+                                        || user.getNationalId().toLowerCase().contains(search.toLowerCase())))
+                        .toList();
+                return findUser;
+            }
+            log.info(findSchool + "");
+        } catch (Exception e) {
+            log.info(e + "");
+        }
         return null;
     }
-   
-}
-@QueryMapping()
-public List<School> getAllSchools(){
-    return schoolRepo.findAll();
-}
-@QueryMapping()
-public SchoolPage schoolListPagination(@Argument(name = "pageNumber") int pageNumber,@Argument(name = "pageSize") int pageSize,@Argument(name = "sortBy") String sortBy){
-Page<School>schooPage=schoolRepo.findAll(PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)));
-return new SchoolPage(schooPage.getContent(),schooPage.getNumber(),schooPage.getTotalPages(),schoolRepo.findAll().size());
-}
-@QueryMapping()
-public List<User>searchStudent(@Argument(name = "schoolId") long schoolId,@Argument(name = "search")String search){
-   try {
-    School findSchool=schoolRepo.findById(schoolId).orElse(null);
-    if(findSchool!=null){
-        List<User>findUser=findSchool.getUserList()
-        .stream().filter(
-            user->((user.getName().toLowerCase().contains(search.toLowerCase()))||(user.getEmail().toLowerCase().contains(search.toLowerCase())) ||(user.getPhoneNumber().toLowerCase().contains(search.toLowerCase())||user.getGender().toLowerCase().contains(search.toLowerCase()))||user.getDob().toString().toLowerCase().contains(search.toLowerCase())||user.getNationalId().toLowerCase().contains(search.toLowerCase())
-            )).toList();
-            return findUser;
-        }
-    log.info(findSchool+"");
-   } catch (Exception e) {
-     log.info(e+"");
-   }
-   
-    return null;
-}
 }

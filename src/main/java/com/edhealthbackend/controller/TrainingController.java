@@ -70,7 +70,8 @@ public class TrainingController {
 
     @QueryMapping()
     public TrainingPage trainingListPagination(@Argument(name = "pageNumber") int pageNumber,
-            @Argument(name = "pageSize") int pageSize, @Argument(name = "sortBy") String sortBy,@Argument(name = "behaviour") String behaviour,
+            @Argument(name = "pageSize") int pageSize, @Argument(name = "sortBy") String sortBy,
+            @Argument(name = "behaviour") String behaviour,
             @Argument(name = "status") Boolean status) {
         if (behaviour.equals("appending")) {
             Page<Training> appending = trainingRepo
@@ -80,7 +81,7 @@ public class TrainingController {
             Page<Training> appending = trainingRepo
                     .findAllByisDeniedByCnm(PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)), status);
             return new TrainingPage(appending.getContent(), pageNumber, pageSize, trainingRepo.findAll().size());
-        } else{
+        } else {
             Page<Training> denied = trainingRepo
                     .findAllByisApprovedByCnm(PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)), status);
             return new TrainingPage(denied.getContent(), pageNumber, pageSize, trainingRepo.findAll().size());

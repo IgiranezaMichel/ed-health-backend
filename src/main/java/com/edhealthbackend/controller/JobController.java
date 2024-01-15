@@ -17,37 +17,41 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class JobController {
-@Autowired private JobRepo ac_ResultRepo;
-@MutationMapping()
-public Job saveJob(@Argument(name = "input")inputJob data){
-    return ac_ResultRepo.save(data.getData());
-}
+    @Autowired
+    private JobRepo ac_ResultRepo;
 
-@MutationMapping()
-public String deleteJob(@Argument long id){
-    try {
-        Job Job=ac_ResultRepo.findById(id).orElse(null);
-      if(Job!=null) {
-        ac_ResultRepo.deleteById(id); 
-        return "Job Deleted Sucessfully";
-    } 
-    else return "Please Select Academic record";
-    } catch (Exception e) {
-        return "Error haappen";
+    @MutationMapping()
+    public Job saveJob(@Argument(name = "input") inputJob data) {
+        return ac_ResultRepo.save(data.getData());
     }
-}
-@QueryMapping
-public Job findJobById(@Argument long id){
-    try {
-         return ac_ResultRepo.findById(id).orElse(null);
-    } catch (Exception e) {
-        log.info(e.getMessage());
-        return null;
+
+    @MutationMapping()
+    public String deleteJob(@Argument long id) {
+        try {
+            Job Job = ac_ResultRepo.findById(id).orElse(null);
+            if (Job != null) {
+                ac_ResultRepo.deleteById(id);
+                return "Job Deleted Sucessfully";
+            } else
+                return "Please Select Academic record";
+        } catch (Exception e) {
+            return "Error haappen";
+        }
     }
-   
-}
-@QueryMapping()
-public List<Job> getAllJobs(){
-    return ac_ResultRepo.findAll();
-}
+
+    @QueryMapping
+    public Job findJobById(@Argument long id) {
+        try {
+            return ac_ResultRepo.findById(id).orElse(null);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return null;
+        }
+
+    }
+
+    @QueryMapping()
+    public List<Job> getAllJobs() {
+        return ac_ResultRepo.findAll();
+    }
 }

@@ -24,45 +24,54 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class HospitalController {
-@Autowired private HospitalRepo hospitalRepo;
-@Autowired private LocationRepo locationRepo;
-@MutationMapping()
-public Hospital saveHospital(@Argument(name = "input")inputHospital data){
-    try {
-      Location location= locationRepo.findById(data.getLocationId()).orElse(null);
-       if(location!=null)
-         return hospitalRepo.save(new Hospital(data.getId(), data.getName(), data.getLogo(), LocalDateTime.now(),location));
-    } catch (Exception e) {
-       log.info(e.getMessage());
-    }
-    return null;
-}
-@MutationMapping()
-public String deleteHospital(@Argument()long data){
-    try {
-        Hospital Hospital=hospitalRepo.findById(data).orElse(null);
-      if(Hospital!=null) {
-        hospitalRepo.deleteById(data); 
-        return "Hospital Deleted Sucessfully";
-    } 
-    else return "Please Select Academic record";
-    } catch (Exception e) {
-        log.info(e+"");
-        return "Error haappen";
-    }
-}
+    @Autowired
+    private HospitalRepo hospitalRepo;
+    @Autowired
+    private LocationRepo locationRepo;
 
-@QueryMapping()
-public Hospital findHospitalById(@Argument() long id){
-return hospitalRepo.findById(id).orElse(null);
-}
-@QueryMapping()
-public List<Hospital> getAllHospitals(){
-    return hospitalRepo.findAll();
-}
-@QueryMapping()
-public HospitalPage hospitaListPagination( @Argument(name = "pageNumber") int pageNumber,@Argument(name = "pageSize") int pageSize,@Argument(name = "sortBy") String sortBy){
-   Page<Hospital>hospitalList= hospitalRepo.findAll(PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)));
-   return new HospitalPage(hospitalList.getContent(), hospitalList.getNumber(), hospitalList.getTotalPages(),hospitalRepo.findAll().size());
-}
+    @MutationMapping()
+    public Hospital saveHospital(@Argument(name = "input") inputHospital data) {
+        try {
+            Location location = locationRepo.findById(data.getLocationId()).orElse(null);
+            if (location != null)
+                return hospitalRepo.save(
+                        new Hospital(data.getId(), data.getName(), data.getLogo(), LocalDateTime.now(), location));
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+        return null;
+    }
+
+    @MutationMapping()
+    public String deleteHospital(@Argument() long data) {
+        try {
+            Hospital Hospital = hospitalRepo.findById(data).orElse(null);
+            if (Hospital != null) {
+                hospitalRepo.deleteById(data);
+                return "Hospital Deleted Sucessfully";
+            } else
+                return "Please Select Academic record";
+        } catch (Exception e) {
+            log.info(e + "");
+            return "Error haappen";
+        }
+    }
+
+    @QueryMapping()
+    public Hospital findHospitalById(@Argument() long id) {
+        return hospitalRepo.findById(id).orElse(null);
+    }
+
+    @QueryMapping()
+    public List<Hospital> getAllHospitals() {
+        return hospitalRepo.findAll();
+    }
+
+    @QueryMapping()
+    public HospitalPage hospitaListPagination(@Argument(name = "pageNumber") int pageNumber,
+            @Argument(name = "pageSize") int pageSize, @Argument(name = "sortBy") String sortBy) {
+        Page<Hospital> hospitalList = hospitalRepo.findAll(PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)));
+        return new HospitalPage(hospitalList.getContent(), hospitalList.getNumber(), hospitalList.getTotalPages(),
+                hospitalRepo.findAll().size());
+    }
 }

@@ -17,46 +17,49 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class LocationController {
-@Autowired private LocationRepo locationRepo;
-@MutationMapping()
-public Location saveLocation(@Argument(name = "input")inputLocation data){
-    Location location=new Location();
-    try {
-        location=locationRepo.findById(data.getLocationId()).orElse(null);
-    } catch (Exception e) {
-        log.info(e.getMessage());
-        location=null;
-    }
-    return locationRepo.save(new Location(data.getId(), data.getName(),data.getType(), location));
-}
+    @Autowired
+    private LocationRepo locationRepo;
 
-@MutationMapping()
-public String deleteLocation(@Argument long id){
-    try {
-        Location Location=locationRepo.findById(id).orElse(null);
-      if(Location!=null) {
-        locationRepo.deleteById(id); 
-        return "Location Deleted Sucessfully";
-    } 
-    else return "Please Select Academic record";
-    } catch (Exception e) {
-        return "Error haappen";
+    @MutationMapping()
+    public Location saveLocation(@Argument(name = "input") inputLocation data) {
+        Location location = new Location();
+        try {
+            location = locationRepo.findById(data.getLocationId()).orElse(null);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            location = null;
+        }
+        return locationRepo.save(new Location(data.getId(), data.getName(), data.getType(), location));
     }
-}
 
-@QueryMapping()
-public Location findLocationById(@Argument long id){
-    try {
-         return locationRepo.findById(id).orElse(null);
-    } catch (Exception e) {
-        log.info(e.getMessage());
-        return null;
+    @MutationMapping()
+    public String deleteLocation(@Argument long id) {
+        try {
+            Location Location = locationRepo.findById(id).orElse(null);
+            if (Location != null) {
+                locationRepo.deleteById(id);
+                return "Location Deleted Sucessfully";
+            } else
+                return "Please Select Academic record";
+        } catch (Exception e) {
+            return "Error haappen";
+        }
     }
-   
-}
-@QueryMapping()
-public List<Location> getAllLocations(){
-    String type="PROVINCE";
-    return locationRepo.findAllByType(type);
-}
+
+    @QueryMapping()
+    public Location findLocationById(@Argument long id) {
+        try {
+            return locationRepo.findById(id).orElse(null);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return null;
+        }
+
+    }
+
+    @QueryMapping()
+    public List<Location> getAllLocations() {
+        String type = "PROVINCE";
+        return locationRepo.findAllByType(type);
+    }
 }
