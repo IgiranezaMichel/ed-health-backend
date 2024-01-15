@@ -19,7 +19,7 @@ public class CertificateController {
 @MutationMapping()
 public Certificate saveCertificate(@Argument(name = "input")inputCertificate data){
     return certificateRepo.save(data.getData());
-}
+}   
 @MutationMapping()
 public String deleteCertificate(@Argument()long id){
     try {
