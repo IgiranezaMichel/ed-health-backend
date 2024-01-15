@@ -6,4 +6,6 @@ import com.edhealthbackend.Model.User;
 
 public interface UserRepo extends JpaRepository<User,Long>{
 
+    User findByEmail(String userEmail);
+
 }
