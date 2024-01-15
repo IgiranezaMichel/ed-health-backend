@@ -11,6 +11,8 @@ public class User {
 private long id;
 private String name;
 private String gender;
+private String nationalId;
+@Column(columnDefinition="longBlob")
 private String profilePicture;
 private String phoneNumber;
 private String email;
