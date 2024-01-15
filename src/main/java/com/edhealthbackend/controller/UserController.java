@@ -29,7 +29,8 @@ public class UserController {
 @Autowired HospitalRepo hospitalRepo;
 @MutationMapping()
 public User saveUser(@Argument(name = "input")inputUser data){
-    return userRepo.save(new User(data.getId(), data.getName(), data.getGender(), data.getNationalId(), data.getProfilePicture(), data.getPhoneNumber(), data.getEmail(), data.getDob(), data.getRole(), BCrypt.hashpw(data.getPassword(), BCrypt.gensalt())));
+    School school=schoolRepo.findById(data.getSchoolId()).orElse(null);
+    return userRepo.save(new User(data.getId(), data.getName(), data.getGender(), data.getNationalId(), data.getProfilePicture(), data.getPhoneNumber(), data.getEmail(), data.getDob(), data.getRole(), BCrypt.hashpw(data.getPassword(), BCrypt.gensalt()),school));
 }
 @MutationMapping()
 public String deleteUser(@Argument()long id){

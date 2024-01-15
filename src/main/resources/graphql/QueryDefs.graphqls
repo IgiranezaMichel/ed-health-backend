@@ -29,4 +29,5 @@ type Query{
     getAllUsers:[User]
     useListPagination(pageNumber:Int,pageSize:Int,sortBy:String):UserPage
     numberOfUsers:Int
+    searchStudent(schoolId:Long,search:String):[User]
 }

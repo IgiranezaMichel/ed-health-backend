@@ -19,4 +19,6 @@ private String email;
 private LocalDateTime dob;
 private String role;
 private String password;
+@ManyToOne
+private School school;
 }

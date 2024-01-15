@@ -16,6 +16,7 @@ import com.edhealthbackend.GqlModel.inputSchool;
 import com.edhealthbackend.GqlModel.Paginations.SchoolPage;
 import com.edhealthbackend.Model.Location;
 import com.edhealthbackend.Model.School;
+import com.edhealthbackend.Model.User;
 import com.edhealthbackend.Repository.LocationRepo;
 import com.edhealthbackend.Repository.SchoolRepo;
 
@@ -69,5 +70,23 @@ public List<School> getAllSchools(){
 public SchoolPage schoolListPagination(@Argument(name = "pageNumber") int pageNumber,@Argument(name = "pageSize") int pageSize,@Argument(name = "sortBy") String sortBy){
 Page<School>schooPage=schoolRepo.findAll(PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)));
 return new SchoolPage(schooPage.getContent(),schooPage.getNumber(),schooPage.getTotalPages(),schoolRepo.findAll().size());
+}
+@QueryMapping()
+public List<User>searchStudent(@Argument(name = "schoolId") long schoolId,@Argument(name = "search")String search){
+   try {
+    School findSchool=schoolRepo.findById(schoolId).orElse(null);
+    if(findSchool!=null){
+        List<User>findUser=findSchool.getUserList()
+        .stream().filter(
+            user->((user.getName().toLowerCase().contains(search.toLowerCase()))||(user.getEmail().toLowerCase().contains(search.toLowerCase())) ||(user.getPhoneNumber().toLowerCase().contains(search.toLowerCase())||user.getGender().toLowerCase().contains(search.toLowerCase()))||user.getDob().toString().toLowerCase().contains(search.toLowerCase())||user.getNationalId().toLowerCase().contains(search.toLowerCase())
+            )).toList();
+            return findUser;
+        }
+    log.info(findSchool+"");
+   } catch (Exception e) {
+     log.info(e+"");
+   }
+   
+    return null;
 }
 }
