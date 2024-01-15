@@ -23,5 +23,6 @@ type Mutation{
     # User
     saveUser(input:inputUser):User
     deleteUser(id:Long):String
+    addUserRole(userEmail:String,role:String,domainName:String,domainId:Long):String
 
 }
