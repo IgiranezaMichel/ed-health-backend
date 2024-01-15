@@ -8,19 +8,25 @@ type Query{
     # hospital
     findHospitalById(id:Long):Hospital
     getAllHospitals:[Hospital]
+    hospitaListPagination(pageNumber:Int,pageSize:Int,sortBy:String):HospitalPage
     # Job
     findJobById(id:Long):Job
     getAllJobs:[Job]
     # location
     findLocationById(id:Long):Location
+    locationListPagination(pageNumber:Int,pageSize:Int,sortBy:String):LocationPage
     getAllLocations:[Location]
     # school
     findSchoolById(id:Long):School
     getAllSchools:[School]
+    schoolListPagination(pageNumber:Int,pageSize:Int,sortBy:String):SchoolPage
     # Training
     findTrainingById(id:Long):Training
     getAllTrainings:[Training]
+    trainingListPagination(pageNumber:Int,pageSize:Int,sortBy:String,behaviour:String,status:Boolean):TrainingPage 
     # User
     findUserById(id:Long):User
     getAllUsers:[User]
+    useListPagination(pageNumber:Int,pageSize:Int,sortBy:String):UserPage
+    numberOfUsers:Int
 }
