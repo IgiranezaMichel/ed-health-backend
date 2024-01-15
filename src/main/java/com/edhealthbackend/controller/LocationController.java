@@ -17,18 +17,25 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class LocationController {
-@Autowired private LocationRepo ac_ResultRepo;
+@Autowired private LocationRepo locationRepo;
 @MutationMapping()
 public Location saveLocation(@Argument(name = "input")inputLocation data){
-    return ac_ResultRepo.save(data.getData());
+    Location location=new Location();
+    try {
+        location=locationRepo.findById(data.getLocationId()).orElse(null);
+    } catch (Exception e) {
+        log.info(e.getMessage());
+        location=null;
+    }
+    return locationRepo.save(new Location(data.getId(), data.getName(),data.getType(), location));
 }
 
 @MutationMapping()
 public String deleteLocation(@Argument long id){
     try {
-        Location Location=ac_ResultRepo.findById(id).orElse(null);
+        Location Location=locationRepo.findById(id).orElse(null);
       if(Location!=null) {
-        ac_ResultRepo.deleteById(id); 
+        locationRepo.deleteById(id); 
         return "Location Deleted Sucessfully";
     } 
     else return "Please Select Academic record";
@@ -40,7 +47,7 @@ public String deleteLocation(@Argument long id){
 @QueryMapping()
 public Location findLocationById(@Argument long id){
     try {
-         return ac_ResultRepo.findById(id).orElse(null);
+         return locationRepo.findById(id).orElse(null);
     } catch (Exception e) {
         log.info(e.getMessage());
         return null;
@@ -49,6 +56,7 @@ public Location findLocationById(@Argument long id){
 }
 @QueryMapping()
 public List<Location> getAllLocations(){
-    return ac_ResultRepo.findAll();
+    String type="PROVINCE";
+    return locationRepo.findAllByType(type);
 }
 }
