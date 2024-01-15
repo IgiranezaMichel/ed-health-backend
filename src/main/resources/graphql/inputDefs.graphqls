@@ -14,6 +14,8 @@ input inputCertificate{
 input inputHospital{
     id:Long
     name:String
+    logo:String
+    locationId:Long
 }
 input inputJob{
  id:Long
@@ -25,11 +27,14 @@ input inputLocation{
     id:Long
     name:String
     type:String
+    locationId:Long
 }
 # school input
 input inputSchool{
  id:Long
  name:String
+ logo:String
+ locationId:Long
 }
 # training input
 input inputTraining{
@@ -37,6 +42,8 @@ input inputTraining{
  title:String
  description:String
  deadline:LocalDateTime
+ trainers:String
+ hospitalId:Long
 }
 # user input
 input inputUser{
