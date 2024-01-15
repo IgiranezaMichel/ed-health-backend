@@ -16,6 +16,9 @@ type Certificate{
 type Hospital{
     id:Long
     name:String
+    logo:String
+    createdOn:LocalDateTime
+    location:Location
 }
 type Job{
  id:Long
@@ -27,10 +30,16 @@ type Location{
  id:Long
  name:String
  type:String
+ location:Location
+ locationList:[Location]
+ listOfSchool:[School]
 }
 type School{
  id:Long
  name:String
+ logo:String
+ createdOn:LocalDateTime
+ location:Location
 }
 type Training{
  id:Long
@@ -38,6 +47,11 @@ type Training{
  description:String
  postDate:LocalDateTime
  deadline:LocalDateTime
+ approvedDate:LocalDateTime
+ trainers:String
+ isApprovedByCnm:Boolean
+ isDeniedByCnm:Boolean
+ hospital:Hospital
 }
 type User{
 id:Long
@@ -49,4 +63,35 @@ email:String
 dob:LocalDateTime
 role:String
 password:String
+}
+# pagination
+type UserPage{
+  content: [User]
+  pageNumber: Int
+  pageSize: Int
+  size:Int
+}
+type LocationPage{
+content: [Location]
+pageNumber: Int
+pageSize: Int
+size:Int
+}
+type HospitalPage{
+content: [Hospital]
+pageNumber: Int
+pageSize: Int
+size:Int
+}
+type SchoolPage{
+content: [School]
+pageNumber: Int
+pageSize: Int
+size:Int
+}
+type TrainingPage{
+content: [Training]
+pageNumber: Int
+pageSize: Int
+size:Int  
 }
