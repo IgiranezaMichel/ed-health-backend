@@ -1,13 +1,10 @@
 package com.edhealthbackend.GqlModel;
-
-import com.edhealthbackend.Interfaces.graphQlData;
 import com.edhealthbackend.Model.Location;
 
-public class inputLocation extends Location implements graphQlData<Location>{
+import lombok.Getter;
+import lombok.Setter;
 
-    @Override
-    public Location getData() {
-     return new Location(getId(), getName(), getType());
-    }
-
+public class inputLocation extends Location{
+    @Getter @Setter
+    private long locationId;
 }
