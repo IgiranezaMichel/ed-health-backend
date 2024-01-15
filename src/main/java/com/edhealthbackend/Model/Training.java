@@ -14,4 +14,10 @@ private String title;
 private String description;
 private LocalDateTime postDate=LocalDateTime.now();
 private LocalDateTime deadline;
+private String trainers;
+private boolean isApprovedByCnm;
+private boolean isDeniedByCnm;
+private LocalDateTime approvedDate;
+@ManyToOne
+private Hospital hospital;
 }
